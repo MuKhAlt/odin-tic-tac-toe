@@ -47,3 +47,36 @@ body {
     padding-left: 2%;
     padding-right: 2%;
 }
+
+
+#game-screen-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 50%;
+    width: 75%;
+    font-size: 2rem;
+}
+
+#board {
+    background-color: antiquewhite;
+    display: grid;
+    grid-template-columns: repeat(3, 200px);
+    grid-template-rows: repeat(3, 200px);
+}
+
+#board > div{
+    border: 3px solid #1A1A1B;
+}
+
+#restart-button {
+    margin-top: 0;
+    padding-left: 2%;
+    padding-right: 2%;
+    background-color: antiquewhite;
+    color: #1A1A1B;
+    font-size: 1.2rem;
+    text-align: center;
+    border-radius: 20px;
+}
