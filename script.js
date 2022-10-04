@@ -57,6 +57,7 @@ screenManager.initialize()
  * 
  */
 const gameBoard = (() => {
+  let gameOver = false
   // Board boxes
   const board = [
     [null, null, null],
@@ -152,6 +153,8 @@ const gameBoard = (() => {
     
     // Add p to game-screen-container
     document.getElementById('game-screen-container').insertBefore(gameOverDisplay, document.getElementById('game-screen-container').firstChild)
+
+    gameOver = true
   }
 
   /**
@@ -180,9 +183,15 @@ const gameBoard = (() => {
     if (document.getElementById('game-over-display')) {
       document.getElementById('game-over-display').remove()
     }
+
+    gameOver = false
   }
 
-  return {initialize, fill, switchTurns, endGame, board}
+  const isGameOver = () => {
+    return gameOver
+  }
+
+  return {initialize, fill, switchTurns, endGame, board, isGameOver}
 })()
 
 /**
@@ -299,20 +308,21 @@ const gameController = (() => {
    * @param {number} column  The column in which the player clicked
    */
   const makeMove = (row, column) => {
-    // Checks if the move is legal (if the board is null at that box)
-    if (!gameBoard.board[row][column]) {
-      // Update gameBoard at that box
-      gameBoard.fill(row, column)
-
-      // Switches turns
-      gameBoard.switchTurns()
-
-      // If the game if over, manage the game ending (given the winner)
-      const winner = isGameOver()
-      if (winner) {
-        console.log('winner is ' + winner);
-        gameBoard.endGame(winner)
-      }
+    if (!gameBoard.isGameOver()) {
+	    // Checks if the move is legal (if the board is null at that box)
+	    if (!gameBoard.board[row][column]) {
+	      // Update gameBoard at that box
+	      gameBoard.fill(row, column)
+	
+	      // Switches turns
+	      gameBoard.switchTurns()
+	
+	      // If the game if over, manage the game ending (given the winner)
+	      const winner = isGameOver()
+	      if (winner) {
+	        gameBoard.endGame(winner)
+	      }
+	    }
     }
   }
 
