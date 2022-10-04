@@ -54,13 +54,16 @@ screenManager.initialize()
  * 
  */
 const gameBoard = (() => {
+  // Board boxes
   const board = [
     [null, null, null],
     [null, null, null],
     [null, null, null]
   ]
+  // Players
   const players = {}
   const boardDiv = document.getElementById('board')
+  // Div boxes
   const boxes = [
     [...document.getElementsByClassName('box')].slice(0, 3),
     [...document.getElementsByClassName('box')].slice(3, 6),
@@ -103,8 +106,17 @@ const Player = (name, symbol) => {
   return {name, symbol}
 }
 
+/**
+ * The object responsible for changing the game state
+ */
 const gameController = (() => {
-  const makeMove = (x, y) => {}
+  /**
+   * notifies the gameBoard to fill a box
+   * 
+   * @param {number} row     The row in which the player clicked
+   * @param {number} column  The column in which the player clicked
+   */
+  const makeMove = (row, column) => {}
 
   return {makeMove}
 })()
