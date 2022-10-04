@@ -1,3 +1,6 @@
+const X = 'X'
+const O = 'O'
+
 /**
  * The object responsible for screen management
  * 
@@ -80,8 +83,9 @@ const gameBoard = (() => {
    */
   const initialize = (player1Name, player2Name) => {
     // Create two players
-    players.player1 = Player(player1Name, 'X')
-    players.player2 = Player(player2Name, 'O')
+    players.player1 = Player(player1Name, X)
+    players.player2 = Player(player2Name, O)
+
     // link clicks to trigger makeMove
     for (let row in boxes) {
       for (let column in boxes[row]) {
@@ -92,7 +96,15 @@ const gameBoard = (() => {
     }
   }
 
-  return {initialize}
+  /**
+   * Fills a box with X or O based on currentTurn,
+   * 
+   * @param {number} row     The row at which the box is located
+   * @param {column} column  The column at which the box is located
+   */
+  const fill = (row, column) => {}
+
+  return {initialize, fill, board}
 })()
 
 /**
@@ -107,16 +119,44 @@ const Player = (name, symbol) => {
 }
 
 /**
- * The object responsible for changing the game state
+ * The object responsible for changing the game state,
  */
 const gameController = (() => {
   /**
-   * notifies the gameBoard to fill a box
+   * Checks if the game has ended and returns a value based on the winner,
+   * 
+   * @return 'X' if player 1 is the winner, 'O' if player 2 is the winner, 'XO' is it's a draw and '' if the game hasn't ended
+   */
+  const isGameOver = () => {}
+
+  /**
+   * Ends the game given the winner
+   * 
+   * @param {string} winner    The winner, 'X' for player 1, 'O' for player 2 and 'XO' if it's a draw
+   */
+  const endGame = (winner) => {}
+
+  /**
+   * Notifies the gameBoard to fill a box,
+   * 
+   * Checks to see if the move is legal, updates gameBoard and checks to see if the game ended,
    * 
    * @param {number} row     The row in which the player clicked
    * @param {number} column  The column in which the player clicked
    */
-  const makeMove = (row, column) => {}
+  const makeMove = (row, column) => {
+    // Checks if the move is legal (if the board is null at that box)
+    if (!gameBoard.board[row][column]) {
+      // Update gameBoard at that box
+      gameBoard.fill(row, column)
+
+      // If the game if over, manage the game ending (given the winner)
+      const winner = isGameOver()
+      if (winner) {
+        endGame(winner)
+      }
+    }
+  }
 
   return {makeMove}
 })()
