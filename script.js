@@ -134,7 +134,18 @@ const gameBoard = (() => {
    * @param {string} winner   'X' if player 1 was the winner, 'O' if it was player 2 and 'XO' if it was a draw
    */
   const endGame = (winner) => {
-
+    // Create p
+    const winnerDisplay = document.createElement('p')
+    if (winner === 'X') {
+      winnerDisplay.innerText = players.player1.name + ' WON!'
+    } else if (winner === 'O') {
+      winnerDisplay.innerText = players.player2.name + ' WON!'
+    } else {
+      winnerDisplay.innerText = 'DRAW!'
+    }
+    
+    // Add p to game-screen-container
+    document.getElementById('game-screen-container').insertBefore(winnerDisplay, document.getElementById('game-screen-container').firstChild)
   }
 
   return {initialize, fill, switchTurns, endGame, board}
