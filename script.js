@@ -126,7 +126,18 @@ const gameBoard = (() => {
     box.appendChild(p)
   }
 
-  return {initialize, fill, switchTurns, board}
+  /**
+   * Creates and renders the gameOver display,
+   * 
+   * Displays a paragraph according to the outcome of the match,
+   * 
+   * @param {string} winner   'X' if player 1 was the winner, 'O' if it was player 2 and 'XO' if it was a draw
+   */
+  const endGame = (winner) => {
+
+  }
+
+  return {initialize, fill, switchTurns, endGame, board}
 })()
 
 /**
@@ -164,7 +175,7 @@ const gameController = (() => {
         if (o === 3) { return 'O' }
       }
     }
-    
+
     const checkColumns = () => {
       let x
       let o
@@ -235,13 +246,6 @@ const gameController = (() => {
   }
 
   /**
-   * Ends the game given the winner
-   * 
-   * @param {string} winner    The winner, 'X' for player 1, 'O' for player 2 and 'XO' if it's a draw
-   */
-  const endGame = (winner) => {}
-
-  /**
    * Notifies the gameBoard to fill a box,
    * 
    * Checks to see if the move is legal, updates gameBoard, switches the turns and checks to see if the game ended,
@@ -262,7 +266,7 @@ const gameController = (() => {
       const winner = isGameOver()
       if (winner) {
         console.log('winner is ' + winner);
-        endGame(winner)
+        gameBoard.endGame(winner)
       }
     }
   }
