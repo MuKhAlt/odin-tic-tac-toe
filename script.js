@@ -85,6 +85,8 @@ const gameBoard = (() => {
     // Create two players
     players.player1 = Player(player1Name, X)
     players.player2 = Player(player2Name, O)
+    // Initializes the current turn
+    players.currentTurn = players.player1
 
     // link clicks to trigger makeMove
     for (let row in boxes) {
@@ -97,6 +99,17 @@ const gameBoard = (() => {
   }
 
   /**
+   * Switches the turns
+   */
+  const switchTurns = () => {
+    if (players.currentTurn === players.player1) {
+      players.currentTurn = players.player2
+    } else {
+      players.currentTurn = players.player1
+    }
+  }
+
+  /**
    * Fills a box with X or O based on currentTurn,
    * 
    * @param {number} row     The row at which the box is located
@@ -104,7 +117,7 @@ const gameBoard = (() => {
    */
   const fill = (row, column) => {}
 
-  return {initialize, fill, board}
+  return {initialize, fill, switchTurns, board}
 })()
 
 /**
@@ -139,7 +152,7 @@ const gameController = (() => {
   /**
    * Notifies the gameBoard to fill a box,
    * 
-   * Checks to see if the move is legal, updates gameBoard and checks to see if the game ended,
+   * Checks to see if the move is legal, updates gameBoard, switches the turns and checks to see if the game ended,
    * 
    * @param {number} row     The row in which the player clicked
    * @param {number} column  The column in which the player clicked
@@ -149,6 +162,9 @@ const gameController = (() => {
     if (!gameBoard.board[row][column]) {
       // Update gameBoard at that box
       gameBoard.fill(row, column)
+
+      // Switches turns
+      gameBoard.switchTurns()
 
       // If the game if over, manage the game ending (given the winner)
       const winner = isGameOver()
