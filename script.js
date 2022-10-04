@@ -113,9 +113,18 @@ const gameBoard = (() => {
    * Fills a box with X or O based on currentTurn,
    * 
    * @param {number} row     The row at which the box is located
-   * @param {column} column  The column at which the box is located
+   * @param {number} column  The column at which the box is located
    */
-  const fill = (row, column) => {}
+  const fill = (row, column) => {
+    // Update board
+    board[row][column] = players.currentTurn.symbol
+
+    // Update DOM
+    const box = boxes[row][column]
+    const p = document.createElement('p')
+    p.innerHTML = players.currentTurn.symbol
+    box.appendChild(p)
+  }
 
   return {initialize, fill, switchTurns, board}
 })()
