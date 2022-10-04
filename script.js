@@ -149,7 +149,90 @@ const gameController = (() => {
    * 
    * @return 'X' if player 1 is the winner, 'O' if player 2 is the winner, 'XO' is it's a draw and '' if the game hasn't ended
    */
-  const isGameOver = () => {}
+  const isGameOver = () => {
+    const checkRows = () => {
+      let x
+      let o
+      for (let row in gameBoard.board) {
+        x = 0
+        o = 0
+        for (let column in gameBoard.board) {
+          if (gameBoard.board[row][column] === 'X') { x++ }
+          if (gameBoard.board[row][column] === 'O') { o++ }
+        }
+        if (x === 3) { return 'X' }
+        if (o === 3) { return 'O' }
+      }
+    }
+    
+    const checkColumns = () => {
+      let x
+      let o
+      for (let column in gameBoard.board) {
+        x = 0
+        o = 0
+        for (let row in gameBoard.board) {
+          if (gameBoard.board[row][column] === 'X') { x++ }
+          if (gameBoard.board[row][column] === 'O') { o++ }
+        }
+        if (x === 3) { return 'X' }
+        if (o === 3) { return 'O' }
+      }
+    }
+
+    const checkDiagonal = () => {
+      let x
+      let o
+      const diagonal = [0, 1, 2]
+
+      // for D1
+      x = 0
+      o = 0
+      for (let i in diagonal) {
+        if (gameBoard.board[i][i] === 'X') { x++ }
+        if (gameBoard.board[i][i] === 'O') { o++ }
+      }
+      if (x === 3) { return 'X' }
+      if (o === 3) { return 'O' }
+
+      // for D2
+      x = 0
+      o = 0
+      for (let i in diagonal) {
+        if (gameBoard.board[i][2 - i] === 'X') { x++ }
+        if (gameBoard.board[i][2 - i] === 'O') { o++ }
+      }
+      if (x === 3) { return 'X' }
+      if (o === 3) { return 'O' }
+    }
+
+    const checkDraw = () => {
+      for (row in gameBoard.board) {
+        for (column in gameBoard.board) {
+          if (gameBoard.board[row][column] === null) {
+            return false
+          }
+        }
+      }
+      return true
+    }
+
+    const rowWinner = checkRows()
+    if (rowWinner) {
+      return rowWinner
+    }
+    const columnWinner = checkColumns()
+    if (columnWinner) {
+      return columnWinner
+    }
+    const diagonalWinner = checkDiagonal()
+    if (diagonalWinner) {
+      return diagonalWinner
+    }
+    if (checkDraw()) {
+      return 'XO'
+    }
+  }
 
   /**
    * Ends the game given the winner
@@ -178,6 +261,7 @@ const gameController = (() => {
       // If the game if over, manage the game ending (given the winner)
       const winner = isGameOver()
       if (winner) {
+        console.log('winner is ' + winner);
         endGame(winner)
       }
     }
