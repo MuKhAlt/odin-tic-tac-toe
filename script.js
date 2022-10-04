@@ -96,6 +96,11 @@ const gameBoard = (() => {
         })
       }
     }
+
+    // link clicking the restart button to trigger restart()
+    document.getElementById('restart-button').addEventListener('click', () => {
+      restart()
+    })
   }
 
   /**
@@ -135,17 +140,46 @@ const gameBoard = (() => {
    */
   const endGame = (winner) => {
     // Create p
-    const winnerDisplay = document.createElement('p')
+    const gameOverDisplay = document.createElement('p')
+    gameOverDisplay.id = 'game-over-display'
     if (winner === 'X') {
-      winnerDisplay.innerText = players.player1.name + ' WON!'
+      gameOverDisplay.innerText = players.player1.name + ' WON!'
     } else if (winner === 'O') {
-      winnerDisplay.innerText = players.player2.name + ' WON!'
+      gameOverDisplay.innerText = players.player2.name + ' WON!'
     } else {
-      winnerDisplay.innerText = 'DRAW!'
+      gameOverDisplay.innerText = 'DRAW!'
     }
     
     // Add p to game-screen-container
-    document.getElementById('game-screen-container').insertBefore(winnerDisplay, document.getElementById('game-screen-container').firstChild)
+    document.getElementById('game-screen-container').insertBefore(gameOverDisplay, document.getElementById('game-screen-container').firstChild)
+  }
+
+  /**
+   * Restarts the game,
+   * 
+   * reinitializes board and boxes
+   */
+  const restart = () => {
+    // clean board
+    for (let row in board) {
+      for (let column in board) {
+        board[row][column] = null
+      }
+    }
+
+    // clean DOM
+    for (let row in boxes) {
+      for (let column in boxes) {
+        if (boxes[row][column].firstChild) {
+          boxes[row][column].firstChild.remove()
+        }
+      }
+    }
+
+    // Clean game over display
+    if (document.getElementById('game-over-display')) {
+      document.getElementById('game-over-display').remove()
+    }
   }
 
   return {initialize, fill, switchTurns, endGame, board}
